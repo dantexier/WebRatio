@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?webml version="7.1.0.0"?>
+
+<WebProject xmlns:gr="http://www.webratio.com/2006/WebML/Graph" outputPath="${webapps_loc}/${project_name}" gr:showUnitContent="true" gr:showTooltip="true" httpPort="8080" httpsPort="8443" enableProjectDependencies="false" jobGroupName="WEBRATIO">
+  <ServiceDataProviders>
+    <XsdProvider id="xsdp1" name="Web Services XSD Provider">
+      <XsdResource id="xsdp1#xsdr1" name="invoice"/>
+    </XsdProvider>
+  </ServiceDataProviders>
+</WebProject>
