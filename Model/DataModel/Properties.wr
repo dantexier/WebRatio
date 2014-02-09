@@ -1,0 +1,974 @@
+<DataModel xmlns:db="http://www.webratio.com/2006/WebML/Database" xmlns:gr="http://www.webratio.com/2006/WebML/Graph">
+  <Entity id="User" name="User" duration="persistent" gr:x="40" gr:y="25" gr:hideAttributes="false" attributeOrder="userOID userName password email" db:database="db1" db:table="user">
+    <Attribute name="oid" id="userOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="userName" id="userName" type="string" db:column="username"/>
+    <Attribute name="password" id="password" type="password" db:column="password"/>
+    <Attribute name="email" id="email" type="string" db:column="email"/>
+  </Entity>
+  <Entity id="Group" name="Group" duration="persistent" gr:x="270" gr:y="45" gr:hideAttributes="false" attributeOrder="groupOID groupName" db:database="db1" db:table="group">
+    <Attribute name="oid" id="groupOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="groupName" id="groupName" type="string" db:column="groupname"/>
+  </Entity>
+  <Entity id="Module" name="Module" duration="persistent" gr:x="495" gr:y="35" gr:hideAttributes="false" attributeOrder="moduleOID moduleID moduleName" db:database="db1" db:table="module">
+    <Attribute name="oid" id="moduleOID" type="integer" key="true" db:column="oid"/>
+    <Attribute name="moduleID" id="moduleID" type="string" db:column="moduleid"/>
+    <Attribute name="moduleName" id="moduleName" type="string" db:column="modulename"/>
+  </Entity>
+  <Relationship id="User2Group_Group2User" name="User_Group" sourceEntity="User" targetEntity="Group" db:database="db1" db:table="user_group">
+    <RelationshipRole1 id="User2Group" name="groups" maxCard="N">
+      <db:JoinColumn attribute="userOID" name="user_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Group2User" name="users" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="group_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="User2DefaultGroup_DefaultGroup2User" name="User_DefaultGroup" sourceEntity="User" targetEntity="Group" gr:bendpoints="113,42,-112,44" db:database="db1" db:table="user">
+    <RelationshipRole1 id="User2DefaultGroup" name="defaultGroup" maxCard="1">
+      <db:JoinColumn attribute="userOID" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="DefaultGroup2User" name="defaultUsers" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="group_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2DefaultModule_DefaultModule2Group" name="Group_DefaultModule" sourceEntity="Group" targetEntity="Module" db:database="db1" db:table="group">
+    <RelationshipRole1 id="Group2DefaultModule" name="defaultModule" maxCard="1">
+      <db:JoinColumn attribute="groupOID" name="oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="DefaultModule2Group" name="defaultGroups" maxCard="N">
+      <db:JoinColumn attribute="moduleOID" name="module_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="Group2Module_Module2Group" name="Group_Module" sourceEntity="Group" targetEntity="Module" gr:bendpoints="110,41,-115,41" db:database="db1" db:table="group_module">
+    <RelationshipRole1 id="Group2Module" name="modules" maxCard="N">
+      <db:JoinColumn attribute="groupOID" name="group_oid"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="Module2Group" name="groups" maxCard="N">
+      <db:JoinColumn attribute="moduleOID" name="module_oid"/>
+    </RelationshipRole2>
+  </Relationship>
+  <db:Database id="db1" name="Admin_Authors" type="PostgreSQL 9" url="jdbc:postgresql://localhost:5432/authors" username="postgres" password="32168900" cryptedPassword="false" connectionCount="5" schema="public"/>
+  <db:Database id="db2" name="DSpace_SEDICI" type="PostgreSQL 9" url="jdbc:postgresql://localhost:5432/dspace15612" username="postgres" cryptedPassword="true" password="MzIxNjg5MDA=" schema="public"/>
+  <Entity id="ent49" name="Bi1Dis" db:database="db2" duration="persistent" db:table="bi_1_dis" gr:x="1565" gr:y="1435">
+    <Attribute id="ent49#att221" name="id" db:column="id" type="integer" key="true"/>
+    <Attribute id="ent49#att222" name="authority" db:column="authority" type="string" key="false"/>
+    <Attribute id="ent49#att223" name="value" db:column="value" type="string" key="false"/>
+    <Attribute id="ent49#att224" name="sortValue" db:column="sort_value" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent50" name="Bi1Dmap" db:database="db2" duration="persistent" db:table="bi_1_dmap" gr:x="1565" gr:y="1165">
+    <Attribute id="ent50#att225" name="mapId" db:column="map_id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent51" name="Bi2Dis" db:database="db2" duration="persistent" db:table="bi_2_dis" gr:x="1800" gr:y="1435">
+    <Attribute id="ent51#att226" name="id" db:column="id" type="integer" key="true"/>
+    <Attribute id="ent51#att227" name="authority" db:column="authority" type="string" key="false"/>
+    <Attribute id="ent51#att228" name="value" db:column="value" type="string" key="false"/>
+    <Attribute id="ent51#att229" name="sortValue" db:column="sort_value" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent52" name="Bi2Dmap" db:database="db2" duration="persistent" db:table="bi_2_dmap" gr:x="1800" gr:y="1165">
+    <Attribute id="ent52#att230" name="mapId" db:column="map_id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent53" name="BiItem" db:database="db2" duration="persistent" db:table="bi_item" gr:x="1410" gr:y="1160">
+    <Attribute id="ent53#att231" name="id" db:column="id" type="integer" key="true"/>
+    <Attribute id="ent53#att232" name="sort3" db:column="sort_3" type="string" key="false"/>
+    <Attribute id="ent53#att233" name="sort2" db:column="sort_2" type="string" key="false"/>
+    <Attribute id="ent53#att234" name="sort1" db:column="sort_1" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent54" name="BiWithdrawn" db:database="db2" duration="persistent" db:table="bi_withdrawn" gr:x="955" gr:y="1165">
+    <Attribute id="ent54#att235" name="id" db:column="id" type="integer" key="true"/>
+    <Attribute id="ent54#att236" name="sort3" db:column="sort_3" type="string" key="false"/>
+    <Attribute id="ent54#att237" name="sort2" db:column="sort_2" type="string" key="false"/>
+    <Attribute id="ent54#att238" name="sort1" db:column="sort_1" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent55" name="Bitstream" db:database="db2" duration="persistent" db:table="bitstream" gr:x="3175" gr:y="1200">
+    <Attribute id="ent55#att239" name="bitstreamId" db:column="bitstream_id" type="integer" key="true"/>
+    <Attribute id="ent55#att240" name="name" db:column="name" type="string" key="false"/>
+    <Attribute id="ent55#att241" name="sizeBytes" db:column="size_bytes" type="decimal" key="false"/>
+    <Attribute id="ent55#att242" name="checksum" db:column="checksum" type="string" key="false"/>
+    <Attribute id="ent55#att243" name="checksumAlgorithm" db:column="checksum_algorithm" type="string" key="false"/>
+    <Attribute id="ent55#att244" name="description" db:column="description" type="string" key="false"/>
+    <Attribute id="ent55#att245" name="userFormatDescription" db:column="user_format_description" type="string" key="false"/>
+    <Attribute id="ent55#att246" name="source" db:column="source" type="string" key="false"/>
+    <Attribute id="ent55#att247" name="internalId" db:column="internal_id" type="string" key="false"/>
+    <Attribute id="ent55#att248" name="deleted" db:column="deleted" type="boolean" key="false"/>
+    <Attribute id="ent55#att249" name="storeNumber" db:column="store_number" type="integer" key="false"/>
+    <Attribute id="ent55#att250" name="sequenceId" db:column="sequence_id" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent56" name="Bitstreamformatregistry" db:database="db2" duration="persistent" db:table="bitstreamformatregistry" gr:x="3220" gr:y="1695">
+    <Attribute id="ent56#att251" name="bitstreamFormatId" db:column="bitstream_format_id" type="integer" key="true"/>
+    <Attribute id="ent56#att252" name="mimetype" db:column="mimetype" type="string" key="false"/>
+    <Attribute id="ent56#att253" name="shortDescription" db:column="short_description" type="string" key="false"/>
+    <Attribute id="ent56#att254" name="description" db:column="description" type="string" key="false"/>
+    <Attribute id="ent56#att255" name="supportLevel" db:column="support_level" type="integer" key="false"/>
+    <Attribute id="ent56#att256" name="internal" db:column="internal" type="boolean" key="false"/>
+  </Entity>
+  <Entity id="ent57" name="Bundle" db:database="db2" duration="persistent" db:table="bundle" gr:x="2860" gr:y="630">
+    <Attribute id="ent57#att257" name="bundleId" db:column="bundle_id" type="integer" key="true"/>
+    <Attribute id="ent57#att258" name="name" db:column="name" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent58" name="Bundle2bitstream" db:database="db2" duration="persistent" db:table="bundle2bitstream" gr:x="3530" gr:y="1090">
+    <Attribute id="ent58#att259" name="id" db:column="id" type="integer" key="true"/>
+    <Attribute id="ent58#att260" name="bitstreamOrder" db:column="bitstream_order" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent59" name="ChecksumHistory" db:database="db2" duration="persistent" db:table="checksum_history" gr:x="2520" gr:y="60">
+    <Attribute id="ent59#att261" name="checkId" db:column="check_id" type="decimal" key="true"/>
+    <Attribute id="ent59#att262" name="bitstreamId" db:column="bitstream_id" type="integer" key="false"/>
+    <Attribute id="ent59#att263" name="processStartDate" db:column="process_start_date" type="timestamp" key="false"/>
+    <Attribute id="ent59#att264" name="processEndDate" db:column="process_end_date" type="timestamp" key="false"/>
+    <Attribute id="ent59#att265" name="checksumExpected" db:column="checksum_expected" type="string" key="false"/>
+    <Attribute id="ent59#att266" name="checksumCalculated" db:column="checksum_calculated" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent60" name="ChecksumResults" db:database="db2" duration="persistent" db:table="checksum_results" gr:x="2880" gr:y="60">
+    <Attribute id="ent60#att267" name="resultCode" db:column="result_code" type="string" key="true"/>
+    <Attribute id="ent60#att268" name="resultDescription" db:column="result_description" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent61" name="Collection" db:database="db2" duration="persistent" db:table="collection" gr:x="340" gr:y="630">
+    <Attribute id="ent61#att269" name="collectionId" db:column="collection_id" type="integer" key="true"/>
+    <Attribute id="ent61#att270" name="name" db:column="name" type="string" key="false"/>
+    <Attribute id="ent61#att271" name="shortDescription" db:column="short_description" type="string" key="false"/>
+    <Attribute id="ent61#att272" name="introductoryText" db:column="introductory_text" type="string" key="false"/>
+    <Attribute id="ent61#att273" name="provenanceDescription" db:column="provenance_description" type="string" key="false"/>
+    <Attribute id="ent61#att274" name="license" db:column="license" type="string" key="false"/>
+    <Attribute id="ent61#att275" name="copyrightText" db:column="copyright_text" type="string" key="false"/>
+    <Attribute id="ent61#att276" name="sideBarText" db:column="side_bar_text" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent62" name="Collection2item" db:database="db2" duration="persistent" db:table="collection2item" gr:x="350" gr:y="465">
+    <Attribute id="ent62#att277" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent63" name="CollectionItemCount" db:database="db2" duration="persistent" db:table="collection_item_count" gr:x="90" gr:y="1240">
+    <Attribute id="ent63#att278" name="count" db:column="count" type="integer" key="false"/>
+    <Generalization superEntity="ent61">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </Generalization>
+  </Entity>
+  <Entity id="ent64" name="Communities2item" db:database="db2" duration="persistent" db:table="communities2item" gr:x="1755" gr:y="215">
+    <Attribute id="ent64#att279" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent65" name="Community" db:database="db2" duration="persistent" db:table="community" gr:x="3435" gr:y="300">
+    <Attribute id="ent65#att280" name="communityId" db:column="community_id" type="integer" key="true"/>
+    <Attribute id="ent65#att281" name="name" db:column="name" type="string" key="false"/>
+    <Attribute id="ent65#att282" name="shortDescription" db:column="short_description" type="string" key="false"/>
+    <Attribute id="ent65#att283" name="introductoryText" db:column="introductory_text" type="string" key="false"/>
+    <Attribute id="ent65#att284" name="copyrightText" db:column="copyright_text" type="string" key="false"/>
+    <Attribute id="ent65#att285" name="sideBarText" db:column="side_bar_text" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent66" name="Community2collection" db:database="db2" duration="persistent" db:table="community2collection" gr:x="1735" gr:y="65">
+    <Attribute id="ent66#att286" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent67" name="Community2community" db:database="db2" duration="persistent" db:table="community2community" gr:x="3145" gr:y="70">
+    <Attribute id="ent67#att287" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent69" name="CommunityItemCount" db:database="db2" duration="persistent" db:table="community_item_count" gr:x="3655" gr:y="140">
+    <Attribute id="ent69#att290" name="count" db:column="count" type="integer" key="false"/>
+    <Generalization superEntity="ent65">
+      <db:JoinColumn attribute="ent65#att280" name="community_id"/>
+    </Generalization>
+  </Entity>
+  <Entity id="ent70" name="CwfClaimtask" db:database="db2" duration="persistent" db:table="cwf_claimtask" gr:x="2205" gr:y="345">
+    <Attribute id="ent70#att291" name="claimtaskId" db:column="claimtask_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent70#att292" name="workflowId" db:column="workflow_id" type="string" key="false"/>
+    <Attribute id="ent70#att293" name="stepId" db:column="step_id" type="string" key="false"/>
+    <Attribute id="ent70#att294" name="actionId" db:column="action_id" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent71" name="CwfCollectionrole" db:database="db2" duration="persistent" db:table="cwf_collectionrole" gr:x="1950" gr:y="950">
+    <Attribute id="ent71#att295" name="collectionroleId" db:column="collectionrole_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent71#att296" name="roleId" db:column="role_id" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent72" name="CwfInProgressUser" db:database="db2" duration="persistent" db:table="cwf_in_progress_user" gr:x="2455" gr:y="365">
+    <Attribute id="ent72#att297" name="inProgressUserId" db:column="in_progress_user_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent72#att298" name="finished" db:column="finished" type="boolean" key="false"/>
+  </Entity>
+  <Entity id="ent73" name="CwfPooltask" db:database="db2" duration="persistent" db:table="cwf_pooltask" gr:x="2750" gr:y="735">
+    <Attribute id="ent73#att299" name="pooltaskId" db:column="pooltask_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent73#att300" name="workflowId" db:column="workflow_id" type="string" key="false"/>
+    <Attribute id="ent73#att301" name="stepId" db:column="step_id" type="string" key="false"/>
+    <Attribute id="ent73#att302" name="actionId" db:column="action_id" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent74" name="CwfWorkflowitem" db:database="db2" duration="persistent" db:table="cwf_workflowitem" gr:x="1610" gr:y="535">
+    <Attribute id="ent74#att303" name="workflowitemId" db:column="workflowitem_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent74#att304" name="multipleTitles" db:column="multiple_titles" type="boolean" key="false"/>
+    <Attribute id="ent74#att305" name="publishedBefore" db:column="published_before" type="boolean" key="false"/>
+    <Attribute id="ent74#att306" name="multipleFiles" db:column="multiple_files" type="boolean" key="false"/>
+  </Entity>
+  <Entity id="ent75" name="CwfWorkflowitemrole" db:database="db2" duration="persistent" db:table="cwf_workflowitemrole" gr:x="1810" gr:y="375">
+    <Attribute id="ent75#att307" name="workflowitemroleId" db:column="workflowitemrole_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent75#att308" name="roleId" db:column="role_id" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent77" name="Eperson" db:database="db2" duration="persistent" db:table="eperson" gr:x="2390" gr:y="1170">
+    <Attribute id="ent77#att315" name="epersonId" db:column="eperson_id" type="integer" key="true"/>
+    <Attribute id="ent77#att316" name="email" db:column="email" type="string" key="false"/>
+    <Attribute id="ent77#att317" name="password" db:column="password" type="string" key="false"/>
+    <Attribute id="ent77#att318" name="firstname" db:column="firstname" type="string" key="false"/>
+    <Attribute id="ent77#att319" name="lastname" db:column="lastname" type="string" key="false"/>
+    <Attribute id="ent77#att320" name="canLogIn" db:column="can_log_in" type="boolean" key="false"/>
+    <Attribute id="ent77#att321" name="requireCertificate" db:column="require_certificate" type="boolean" key="false"/>
+    <Attribute id="ent77#att322" name="selfRegistered" db:column="self_registered" type="boolean" key="false"/>
+    <Attribute id="ent77#att323" name="lastActive" db:column="last_active" type="timestamp" key="false"/>
+    <Attribute id="ent77#att324" name="subFrequency" db:column="sub_frequency" type="integer" key="false"/>
+    <Attribute id="ent77#att325" name="phone" db:column="phone" type="string" key="false"/>
+    <Attribute id="ent77#att326" name="netid" db:column="netid" type="string" key="false"/>
+    <Attribute id="ent77#att327" name="language" db:column="language" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent78" name="Epersongroup" db:database="db2" duration="persistent" db:table="epersongroup" gr:x="3545" gr:y="680">
+    <Attribute id="ent78#att328" name="epersonGroupId" db:column="eperson_group_id" type="integer" key="true"/>
+    <Attribute id="ent78#att329" name="name" db:column="name" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent79" name="Epersongroup2eperson" db:database="db2" duration="persistent" db:table="epersongroup2eperson" gr:x="4110" gr:y="590">
+    <Attribute id="ent79#att330" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent80" name="Epersongroup2workspaceitem" db:database="db2" duration="persistent" db:table="epersongroup2workspaceitem" gr:x="1260" gr:y="160">
+    <Attribute id="ent80#att331" name="id" db:column="id" type="integer" key="true" db:idGenerator="identity"/>
+  </Entity>
+  <Entity id="ent81" name="Fileextension" db:database="db2" duration="persistent" db:table="fileextension" gr:x="3750" gr:y="1740">
+    <Attribute id="ent81#att332" name="fileExtensionId" db:column="file_extension_id" type="integer" key="true"/>
+    <Attribute id="ent81#att333" name="extension" db:column="extension" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent82" name="Group2group" db:database="db2" duration="persistent" db:table="group2group" gr:x="4225" gr:y="940">
+    <Attribute id="ent82#att334" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent83" name="Group2groupcache" db:database="db2" duration="persistent" db:table="group2groupcache" gr:x="4205" gr:y="1065">
+    <Attribute id="ent83#att335" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent84" name="Handle" db:database="db2" duration="persistent" db:table="handle" gr:x="1040" gr:y="40">
+    <Attribute id="ent84#att336" name="handleId" db:column="handle_id" type="integer" key="true"/>
+    <Attribute id="ent84#att337" name="handle" db:column="handle" type="string" key="false"/>
+    <Attribute id="ent84#att338" name="resourceTypeId" db:column="resource_type_id" type="integer" key="false"/>
+    <Attribute id="ent84#att339" name="resourceId" db:column="resource_id" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent85" name="HarvestedCollection" db:database="db2" duration="persistent" db:table="harvested_collection" gr:x="30" gr:y="920">
+    <Attribute id="ent85#att340" name="harvestType" db:column="harvest_type" type="integer" key="false"/>
+    <Attribute id="ent85#att341" name="oaiSource" db:column="oai_source" type="string" key="false"/>
+    <Attribute id="ent85#att342" name="oaiSetId" db:column="oai_set_id" type="string" key="false"/>
+    <Attribute id="ent85#att343" name="harvestMessage" db:column="harvest_message" type="string" key="false"/>
+    <Attribute id="ent85#att344" name="metadataConfigId" db:column="metadata_config_id" type="string" key="false"/>
+    <Attribute id="ent85#att345" name="harvestStatus" db:column="harvest_status" type="integer" key="false"/>
+    <Attribute id="ent85#att346" name="harvestStartTime" db:column="harvest_start_time" type="timestamp" key="false"/>
+    <Attribute id="ent85#att347" name="lastHarvested" db:column="last_harvested" type="timestamp" key="false"/>
+    <Attribute id="ent85#att348" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent86" name="HarvestedItem" db:database="db2" duration="persistent" db:table="harvested_item" gr:x="1145" gr:y="1165">
+    <Attribute id="ent86#att349" name="lastHarvested" db:column="last_harvested" type="timestamp" key="false"/>
+    <Attribute id="ent86#att350" name="oaiId" db:column="oai_id" type="string" key="false"/>
+    <Attribute id="ent86#att351" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent87" name="Item" db:database="db2" duration="persistent" db:table="item" gr:x="510" gr:y="285">
+    <Attribute id="ent87#att352" name="itemId" db:column="item_id" type="integer" key="true"/>
+    <Attribute id="ent87#att353" name="inArchive" db:column="in_archive" type="boolean" key="false"/>
+    <Attribute id="ent87#att354" name="withdrawn" db:column="withdrawn" type="boolean" key="false"/>
+    <Attribute id="ent87#att355" name="lastModified" db:column="last_modified" type="timestamp" key="false"/>
+    <Attribute id="ent87#att356" name="owningCollection" db:column="owning_collection" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent88" name="Item2bundle" db:database="db2" duration="persistent" db:table="item2bundle" gr:x="1440" gr:y="400">
+    <Attribute id="ent88#att357" name="id" db:column="id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent89" name="Metadatafieldregistry" db:database="db2" duration="persistent" db:table="metadatafieldregistry" gr:x="85" gr:y="510">
+    <Attribute id="ent89#att358" name="metadataFieldId" db:column="metadata_field_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent89#att359" name="element" db:column="element" type="string" key="false"/>
+    <Attribute id="ent89#att360" name="qualifier" db:column="qualifier" type="string" key="false"/>
+    <Attribute id="ent89#att361" name="scopeNote" db:column="scope_note" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent90" name="Metadataschemaregistry" db:database="db2" duration="persistent" db:table="metadataschemaregistry" gr:x="30" gr:y="715">
+    <Attribute id="ent90#att362" name="metadataSchemaId" db:column="metadata_schema_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent90#att363" name="namespace" db:column="namespace" type="string" key="false"/>
+    <Attribute id="ent90#att364" name="shortId" db:column="short_id" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent91" name="Metadatavalue" db:database="db2" duration="persistent" db:table="metadatavalue" gr:x="105" gr:y="280">
+    <Attribute id="ent91#att365" name="metadataValueId" db:column="metadata_value_id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent91#att366" name="textValue" db:column="text_value" type="string" key="false"/>
+    <Attribute id="ent91#att367" name="textLang" db:column="text_lang" type="string" key="false"/>
+    <Attribute id="ent91#att368" name="place" db:column="place" type="integer" key="false"/>
+    <Attribute id="ent91#att369" name="authority" db:column="authority" type="string" key="false"/>
+    <Attribute id="ent91#att370" name="confidence" db:column="confidence" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent92" name="MostRecentChecksum" db:database="db2" duration="persistent" db:table="most_recent_checksum" gr:x="3150" gr:y="445">
+    <Attribute id="ent92#att371" name="toBeProcessed" db:column="to_be_processed" type="boolean" key="false"/>
+    <Attribute id="ent92#att372" name="expectedChecksum" db:column="expected_checksum" type="string" key="false"/>
+    <Attribute id="ent92#att373" name="currentChecksum" db:column="current_checksum" type="string" key="false"/>
+    <Attribute id="ent92#att374" name="lastProcessStartDate" db:column="last_process_start_date" type="timestamp" key="false"/>
+    <Attribute id="ent92#att375" name="lastProcessEndDate" db:column="last_process_end_date" type="timestamp" key="false"/>
+    <Attribute id="ent92#att376" name="checksumAlgorithm" db:column="checksum_algorithm" type="string" key="false"/>
+    <Attribute id="ent92#att377" name="matchedPrevChecksum" db:column="matched_prev_checksum" type="boolean" key="false"/>
+    <Generalization superEntity="ent55">
+      <db:JoinColumn attribute="ent55#att239" name="bitstream_id"/>
+    </Generalization>
+  </Entity>
+  <Entity id="ent93" name="Registrationdata" db:database="db2" duration="persistent" db:table="registrationdata" gr:x="770" gr:y="30">
+    <Attribute id="ent93#att378" name="registrationdataId" db:column="registrationdata_id" type="integer" key="true"/>
+    <Attribute id="ent93#att379" name="email" db:column="email" type="string" key="false"/>
+    <Attribute id="ent93#att380" name="token" db:column="token" type="string" key="false"/>
+    <Attribute id="ent93#att381" name="expires" db:column="expires" type="timestamp" key="false"/>
+  </Entity>
+  <Entity id="ent94" name="Resourcepolicy" db:database="db2" duration="persistent" db:table="resourcepolicy" gr:x="4200" gr:y="1280">
+    <Attribute id="ent94#att382" name="policyId" db:column="policy_id" type="integer" key="true"/>
+    <Attribute id="ent94#att383" name="resourceTypeId" db:column="resource_type_id" type="integer" key="false"/>
+    <Attribute id="ent94#att384" name="resourceId" db:column="resource_id" type="integer" key="false"/>
+    <Attribute id="ent94#att385" name="actionId" db:column="action_id" type="integer" key="false"/>
+    <Attribute id="ent94#att386" name="startDate" db:column="start_date" type="date" key="false"/>
+    <Attribute id="ent94#att387" name="endDate" db:column="end_date" type="date" key="false"/>
+  </Entity>
+  <Entity id="ent95" name="Subscription" db:database="db2" duration="persistent" db:table="subscription" gr:x="370" gr:y="1275">
+    <Attribute id="ent95#att388" name="subscriptionId" db:column="subscription_id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent96" name="Tasklistitem" db:database="db2" duration="persistent" db:table="tasklistitem" gr:x="2720" gr:y="390">
+    <Attribute id="ent96#att389" name="tasklistId" db:column="tasklist_id" type="integer" key="true"/>
+  </Entity>
+  <Entity id="ent97" name="Workflowitem" db:database="db2" duration="persistent" db:table="workflowitem" gr:x="2150" gr:y="780">
+    <Attribute id="ent97#att390" name="workflowId" db:column="workflow_id" type="integer" key="true"/>
+    <Attribute id="ent97#att391" name="state" db:column="state" type="integer" key="false"/>
+    <Attribute id="ent97#att392" name="multipleTitles" db:column="multiple_titles" type="boolean" key="false"/>
+    <Attribute id="ent97#att393" name="publishedBefore" db:column="published_before" type="boolean" key="false"/>
+    <Attribute id="ent97#att394" name="multipleFiles" db:column="multiple_files" type="boolean" key="false"/>
+  </Entity>
+  <Entity id="ent98" name="Workspaceitem" db:database="db2" duration="persistent" db:table="workspaceitem" gr:x="640" gr:y="900">
+    <Attribute id="ent98#att395" name="workspaceItemId" db:column="workspace_item_id" type="integer" key="true"/>
+    <Attribute id="ent98#att396" name="multipleTitles" db:column="multiple_titles" type="boolean" key="false"/>
+    <Attribute id="ent98#att397" name="publishedBefore" db:column="published_before" type="boolean" key="false"/>
+    <Attribute id="ent98#att398" name="multipleFiles" db:column="multiple_files" type="boolean" key="false"/>
+    <Attribute id="ent98#att399" name="stageReached" db:column="stage_reached" type="integer" key="false"/>
+    <Attribute id="ent98#att400" name="pageReached" db:column="page_reached" type="integer" key="false"/>
+  </Entity>
+  <Relationship id="rel45" name="CwfclaimtaskCwfworkflowitem" db:database="db2" db:table="cwf_claimtask" sourceEntity="ent70" targetEntity="ent74">
+    <RelationshipRole1 id="rel45#role89" name="CwfclaimtaskToCwfworkflowitem" maxCard="1">
+      <db:JoinColumn attribute="ent70#att291" name="claimtask_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel45#role90" name="CwfworkflowitemToCwfclaimtask" maxCard="N">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel46" name="CwfclaimtaskEperson" db:database="db2" db:table="cwf_claimtask" sourceEntity="ent70" targetEntity="ent77">
+    <RelationshipRole1 id="rel46#role91" name="CwfclaimtaskToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent70#att291" name="claimtask_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel46#role92" name="EpersonToCwfclaimtask" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="owner_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel47" name="Group2groupcacheEpersongroup" db:database="db2" db:table="group2groupcache" sourceEntity="ent83" targetEntity="ent78">
+    <RelationshipRole1 id="rel47#role93" name="Group2groupcacheToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent83#att335" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel47#role94" name="EpersongroupToGroup2groupcache" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="child_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel48" name="Group2groupcacheEpersongroup" db:database="db2" db:table="group2groupcache" sourceEntity="ent83" targetEntity="ent78">
+    <RelationshipRole1 id="rel48#role95" name="Group2groupcacheToEpersongroup_2" maxCard="1">
+      <db:JoinColumn attribute="ent83#att335" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel48#role96" name="EpersongroupToGroup2groupcache_2" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="parent_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel49" name="Item2bundleBundle" db:database="db2" db:table="item2bundle" sourceEntity="ent88" targetEntity="ent57">
+    <RelationshipRole1 id="rel49#role97" name="Item2bundleToBundle" maxCard="1">
+      <db:JoinColumn attribute="ent88#att357" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel49#role98" name="BundleToItem2bundle" maxCard="N">
+      <db:JoinColumn attribute="ent57#att257" name="bundle_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel50" name="Item2bundleItem" db:database="db2" db:table="item2bundle" sourceEntity="ent88" targetEntity="ent87">
+    <RelationshipRole1 id="rel50#role99" name="Item2bundleToItem" maxCard="1">
+      <db:JoinColumn attribute="ent88#att357" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel50#role100" name="ItemToItem2bundle" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel51" name="CwfcollectionroleCollection" db:database="db2" db:table="cwf_collectionrole" sourceEntity="ent71" targetEntity="ent61">
+    <RelationshipRole1 id="rel51#role101" name="CwfcollectionroleToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent71#att295" name="collectionrole_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel51#role102" name="CollectionToCwfcollectionrole" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel52" name="CwfcollectionroleEpersongroup" db:database="db2" db:table="cwf_collectionrole" sourceEntity="ent71" targetEntity="ent78">
+    <RelationshipRole1 id="rel52#role103" name="CwfcollectionroleToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent71#att295" name="collectionrole_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel52#role104" name="EpersongroupToCwfcollectionrole" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="group_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel53" name="CwfworkflowitemCollection" db:database="db2" db:table="cwf_workflowitem" sourceEntity="ent74" targetEntity="ent61">
+    <RelationshipRole1 id="rel53#role105" name="CwfworkflowitemToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel53#role106" name="CollectionToCwfworkflowitem" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel54" name="CwfworkflowitemItem" db:database="db2" db:table="cwf_workflowitem" sourceEntity="ent74" targetEntity="ent87">
+    <RelationshipRole1 id="rel54#role107" name="CwfworkflowitemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel54#role108" name="ItemToCwfworkflowitem" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel55" name="ChecksumhistoryChecksumresults" db:database="db2" db:table="checksum_history" sourceEntity="ent59" targetEntity="ent60">
+    <RelationshipRole1 id="rel55#role109" name="ChecksumhistoryToChecksumresults" maxCard="1">
+      <db:JoinColumn attribute="ent59#att261" name="check_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel55#role110" name="ChecksumresultsToChecksumhistory" maxCard="N">
+      <db:JoinColumn attribute="ent60#att267" name="result"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel56" name="Bi1dmapBi1dis" db:database="db2" db:table="bi_1_dmap" sourceEntity="ent50" targetEntity="ent49">
+    <RelationshipRole1 id="rel56#role111" name="Bi1dmapToBi1dis" maxCard="1">
+      <db:JoinColumn attribute="ent50#att225" name="map_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel56#role112" name="Bi1disToBi1dmap" maxCard="N">
+      <db:JoinColumn attribute="ent49#att221" name="distinct_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel57" name="Bi1dmapItem" db:database="db2" db:table="bi_1_dmap" sourceEntity="ent50" targetEntity="ent87">
+    <RelationshipRole1 id="rel57#role113" name="Bi1dmapToItem" maxCard="1">
+      <db:JoinColumn attribute="ent50#att225" name="map_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel57#role114" name="ItemToBi1dmap" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel58" name="FileextensionBitstreamformatregistry" db:database="db2" db:table="fileextension" sourceEntity="ent81" targetEntity="ent56">
+    <RelationshipRole1 id="rel58#role115" name="FileextensionToBitstreamformatregistry" maxCard="1">
+      <db:JoinColumn attribute="ent81#att332" name="file_extension_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel58#role116" name="BitstreamformatregistryToFileextension" maxCard="N">
+      <db:JoinColumn attribute="ent56#att251" name="bitstream_format_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel59" name="MostrecentchecksumChecksumresults" db:database="db2" db:table="most_recent_checksum" sourceEntity="ent92" targetEntity="ent60">
+    <RelationshipRole1 id="rel59#role117" name="MostrecentchecksumToChecksumresults" maxCard="1">
+      <db:JoinColumn attribute="ent55#att239" name="bitstream_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel59#role118" name="ChecksumresultsToMostrecentchecksum" maxCard="N">
+      <db:JoinColumn attribute="ent60#att267" name="result"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel60" name="Bundle2bitstreamBitstream" db:database="db2" db:table="bundle2bitstream" sourceEntity="ent58" targetEntity="ent55">
+    <RelationshipRole1 id="rel60#role119" name="Bundle2bitstreamToBitstream" maxCard="1">
+      <db:JoinColumn attribute="ent58#att259" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel60#role120" name="BitstreamToBundle2bitstream" maxCard="N">
+      <db:JoinColumn attribute="ent55#att239" name="bitstream_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel61" name="Bundle2bitstreamBundle" db:database="db2" db:table="bundle2bitstream" sourceEntity="ent58" targetEntity="ent57">
+    <RelationshipRole1 id="rel61#role121" name="Bundle2bitstreamToBundle" maxCard="1">
+      <db:JoinColumn attribute="ent58#att259" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel61#role122" name="BundleToBundle2bitstream" maxCard="N">
+      <db:JoinColumn attribute="ent57#att257" name="bundle_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel62" name="Community2communityCommunity" db:database="db2" db:table="community2community" sourceEntity="ent67" targetEntity="ent65">
+    <RelationshipRole1 id="rel62#role123" name="Community2communityToCommunity" maxCard="1">
+      <db:JoinColumn attribute="ent67#att287" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel62#role124" name="CommunityToCommunity2community" maxCard="N">
+      <db:JoinColumn attribute="ent65#att280" name="child_comm_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel63" name="Community2communityCommunity" db:database="db2" db:table="community2community" sourceEntity="ent67" targetEntity="ent65">
+    <RelationshipRole1 id="rel63#role125" name="Community2communityToCommunity_2" maxCard="1">
+      <db:JoinColumn attribute="ent67#att287" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel63#role126" name="CommunityToCommunity2community_2" maxCard="N">
+      <db:JoinColumn attribute="ent65#att280" name="parent_comm_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel64" name="BiwithdrawnItem" db:database="db2" db:table="bi_withdrawn" sourceEntity="ent54" targetEntity="ent87">
+    <RelationshipRole1 id="rel64#role127" name="BiwithdrawnToItem" maxCard="1">
+      <db:JoinColumn attribute="ent54#att235" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel64#role128" name="ItemToBiwithdrawn" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel65" name="Epersongroup2workspaceitemEpersongroup" db:database="db2" db:table="epersongroup2workspaceitem" sourceEntity="ent80" targetEntity="ent78">
+    <RelationshipRole1 id="rel65#role129" name="Epersongroup2workspaceitemToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent80#att331" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel65#role130" name="EpersongroupToEpersongroup2workspaceitem" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="eperson_group_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel66" name="Epersongroup2workspaceitemWorkspaceitem" db:database="db2" db:table="epersongroup2workspaceitem" sourceEntity="ent80" targetEntity="ent98">
+    <RelationshipRole1 id="rel66#role131" name="Epersongroup2workspaceitemToWorkspaceitem" maxCard="1">
+      <db:JoinColumn attribute="ent80#att331" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel66#role132" name="WorkspaceitemToEpersongroup2workspaceitem" maxCard="N">
+      <db:JoinColumn attribute="ent98#att395" name="workspace_item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel67" name="BiitemItem" db:database="db2" db:table="bi_item" sourceEntity="ent53" targetEntity="ent87">
+    <RelationshipRole1 id="rel67#role133" name="BiitemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent53#att231" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel67#role134" name="ItemToBiitem" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel68" name="CommunityBitstream" db:database="db2" db:table="community" sourceEntity="ent65" targetEntity="ent55">
+    <RelationshipRole1 id="rel68#role135" name="CommunityToBitstream" maxCard="1">
+      <db:JoinColumn attribute="ent65#att280" name="community_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel68#role136" name="BitstreamToCommunity" maxCard="N">
+      <db:JoinColumn attribute="ent55#att239" name="logo_bitstream_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel69" name="CommunityEpersongroup" db:database="db2" db:table="community" sourceEntity="ent65" targetEntity="ent78">
+    <RelationshipRole1 id="rel69#role137" name="CommunityToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent65#att280" name="community_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel69#role138" name="EpersongroupToCommunity" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="admin"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel70" name="SubscriptionCollection" db:database="db2" db:table="subscription" sourceEntity="ent95" targetEntity="ent61">
+    <RelationshipRole1 id="rel70#role139" name="SubscriptionToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent95#att388" name="subscription_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel70#role140" name="CollectionToSubscription" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel71" name="SubscriptionEperson" db:database="db2" db:table="subscription" sourceEntity="ent95" targetEntity="ent77">
+    <RelationshipRole1 id="rel71#role141" name="SubscriptionToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent95#att388" name="subscription_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel71#role142" name="EpersonToSubscription" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel72" name="ResourcepolicyEperson" db:database="db2" db:table="resourcepolicy" sourceEntity="ent94" targetEntity="ent77">
+    <RelationshipRole1 id="rel72#role143" name="ResourcepolicyToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent94#att382" name="policy_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel72#role144" name="EpersonToResourcepolicy" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel73" name="ResourcepolicyEpersongroup" db:database="db2" db:table="resourcepolicy" sourceEntity="ent94" targetEntity="ent78">
+    <RelationshipRole1 id="rel73#role145" name="ResourcepolicyToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent94#att382" name="policy_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel73#role146" name="EpersongroupToResourcepolicy" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="epersongroup_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel74" name="HarvesteditemItem" db:database="db2" db:table="harvested_item" sourceEntity="ent86" targetEntity="ent87">
+    <RelationshipRole1 id="rel74#role147" name="HarvesteditemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent86#att351" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel74#role148" name="ItemToHarvesteditem" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel75" name="CwfinprogressuserCwfworkflowitem" db:database="db2" db:table="cwf_in_progress_user" sourceEntity="ent72" targetEntity="ent74">
+    <RelationshipRole1 id="rel75#role149" name="CwfinprogressuserToCwfworkflowitem" maxCard="1">
+      <db:JoinColumn attribute="ent72#att297" name="in_progress_user_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel75#role150" name="CwfworkflowitemToCwfinprogressuser" maxCard="N">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel76" name="CwfinprogressuserEperson" db:database="db2" db:table="cwf_in_progress_user" sourceEntity="ent72" targetEntity="ent77">
+    <RelationshipRole1 id="rel76#role151" name="CwfinprogressuserToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent72#att297" name="in_progress_user_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel76#role152" name="EpersonToCwfinprogressuser" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="user_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel77" name="BitstreamBitstreamformatregistry" db:database="db2" db:table="bitstream" sourceEntity="ent55" targetEntity="ent56">
+    <RelationshipRole1 id="rel77#role153" name="BitstreamToBitstreamformatregistry" maxCard="1">
+      <db:JoinColumn attribute="ent55#att239" name="bitstream_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel77#role154" name="BitstreamformatregistryToBitstream" maxCard="N">
+      <db:JoinColumn attribute="ent56#att251" name="bitstream_format_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel78" name="Collection2itemCollection" db:database="db2" db:table="collection2item" sourceEntity="ent62" targetEntity="ent61">
+    <RelationshipRole1 id="rel78#role155" name="Collection2itemToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent62#att277" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel78#role156" name="CollectionToCollection2item" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel79" name="Collection2itemItem" db:database="db2" db:table="collection2item" sourceEntity="ent62" targetEntity="ent87">
+    <RelationshipRole1 id="rel79#role157" name="Collection2itemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent62#att277" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel79#role158" name="ItemToCollection2item" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel80" name="TasklistitemEperson" db:database="db2" db:table="tasklistitem" sourceEntity="ent96" targetEntity="ent77">
+    <RelationshipRole1 id="rel80#role159" name="TasklistitemToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent96#att389" name="tasklist_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel80#role160" name="EpersonToTasklistitem" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel81" name="TasklistitemWorkflowitem" db:database="db2" db:table="tasklistitem" sourceEntity="ent96" targetEntity="ent97">
+    <RelationshipRole1 id="rel81#role161" name="TasklistitemToWorkflowitem" maxCard="1">
+      <db:JoinColumn attribute="ent96#att389" name="tasklist_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel81#role162" name="WorkflowitemToTasklistitem" maxCard="N">
+      <db:JoinColumn attribute="ent97#att390" name="workflow_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel82" name="BundleBitstream" db:database="db2" db:table="bundle" sourceEntity="ent57" targetEntity="ent55">
+    <RelationshipRole1 id="rel82#role163" name="BundleToBitstream" maxCard="1">
+      <db:JoinColumn attribute="ent57#att257" name="bundle_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel82#role164" name="BitstreamToBundle" maxCard="N">
+      <db:JoinColumn attribute="ent55#att239" name="primary_bitstream_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel83" name="Community2collectionCollection" db:database="db2" db:table="community2collection" sourceEntity="ent66" targetEntity="ent61">
+    <RelationshipRole1 id="rel83#role165" name="Community2collectionToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent66#att286" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel83#role166" name="CollectionToCommunity2collection" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel84" name="Community2collectionCommunity" db:database="db2" db:table="community2collection" sourceEntity="ent66" targetEntity="ent65">
+    <RelationshipRole1 id="rel84#role167" name="Community2collectionToCommunity" maxCard="1">
+      <db:JoinColumn attribute="ent66#att286" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel84#role168" name="CommunityToCommunity2collection" maxCard="N">
+      <db:JoinColumn attribute="ent65#att280" name="community_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel85" name="CwfworkflowitemroleCwfworkflowitem" db:database="db2" db:table="cwf_workflowitemrole" sourceEntity="ent75" targetEntity="ent74">
+    <RelationshipRole1 id="rel85#role169" name="CwfworkflowitemroleToCwfworkflowitem" maxCard="1">
+      <db:JoinColumn attribute="ent75#att307" name="workflowitemrole_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel85#role170" name="CwfworkflowitemToCwfworkflowitemrole" maxCard="N">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel86" name="CwfworkflowitemroleEperson" db:database="db2" db:table="cwf_workflowitemrole" sourceEntity="ent75" targetEntity="ent77">
+    <RelationshipRole1 id="rel86#role171" name="CwfworkflowitemroleToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent75#att307" name="workflowitemrole_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel86#role172" name="EpersonToCwfworkflowitemrole" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel87" name="CwfworkflowitemroleEpersongroup" db:database="db2" db:table="cwf_workflowitemrole" sourceEntity="ent75" targetEntity="ent78">
+    <RelationshipRole1 id="rel87#role173" name="CwfworkflowitemroleToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent75#att307" name="workflowitemrole_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel87#role174" name="EpersongroupToCwfworkflowitemrole" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="group_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel88" name="CollectionBitstream" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent55">
+    <RelationshipRole1 id="rel88#role175" name="CollectionToBitstream" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel88#role176" name="BitstreamToCollection" maxCard="N">
+      <db:JoinColumn attribute="ent55#att239" name="logo_bitstream_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel89" name="CollectionEpersongroup" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent78">
+    <RelationshipRole1 id="rel89#role177" name="CollectionToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel89#role178" name="EpersongroupToCollection" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="workflow_step_3"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel90" name="CollectionEpersongroup" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent78">
+    <RelationshipRole1 id="rel90#role179" name="CollectionToEpersongroup_2" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel90#role180" name="EpersongroupToCollection_2" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="submitter"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel91" name="CollectionEpersongroup" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent78">
+    <RelationshipRole1 id="rel91#role181" name="CollectionToEpersongroup_3" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel91#role182" name="EpersongroupToCollection_3" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="admin"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel92" name="CollectionEpersongroup" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent78">
+    <RelationshipRole1 id="rel92#role183" name="CollectionToEpersongroup_4" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel92#role184" name="EpersongroupToCollection_4" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="workflow_step_1"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel93" name="CollectionEpersongroup" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent78">
+    <RelationshipRole1 id="rel93#role185" name="CollectionToEpersongroup_5" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel93#role186" name="EpersongroupToCollection_5" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="workflow_step_2"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel94" name="CollectionItem" db:database="db2" db:table="collection" sourceEntity="ent61" targetEntity="ent87">
+    <RelationshipRole1 id="rel94#role187" name="CollectionToItem" maxCard="1">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel94#role188" name="ItemToCollection" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="template_item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel95" name="MetadatavalueItem" db:database="db2" db:table="metadatavalue" sourceEntity="ent91" targetEntity="ent87">
+    <RelationshipRole1 id="rel95#role189" name="MetadatavalueToItem" maxCard="1">
+      <db:JoinColumn attribute="ent91#att365" name="metadata_value_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel95#role190" name="ItemToMetadatavalue" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel96" name="MetadatavalueMetadatafieldregistry" db:database="db2" db:table="metadatavalue" sourceEntity="ent91" targetEntity="ent89">
+    <RelationshipRole1 id="rel96#role191" name="MetadatavalueToMetadatafieldregistry" maxCard="1">
+      <db:JoinColumn attribute="ent91#att365" name="metadata_value_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel96#role192" name="MetadatafieldregistryToMetadatavalue" maxCard="N">
+      <db:JoinColumn attribute="ent89#att358" name="metadata_field_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel97" name="ItemEperson" db:database="db2" db:table="item" sourceEntity="ent87" targetEntity="ent77">
+    <RelationshipRole1 id="rel97#role193" name="ItemToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel97#role194" name="EpersonToItem" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="submitter_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel98" name="Epersongroup2epersonEperson" db:database="db2" db:table="epersongroup2eperson" sourceEntity="ent79" targetEntity="ent77">
+    <RelationshipRole1 id="rel98#role195" name="Epersongroup2epersonToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent79#att330" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel98#role196" name="EpersonToEpersongroup2eperson" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel99" name="Epersongroup2epersonEpersongroup" db:database="db2" db:table="epersongroup2eperson" sourceEntity="ent79" targetEntity="ent78">
+    <RelationshipRole1 id="rel99#role197" name="Epersongroup2epersonToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent79#att330" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel99#role198" name="EpersongroupToEpersongroup2eperson" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="eperson_group_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel100" name="Communities2itemCommunity" db:database="db2" db:table="communities2item" sourceEntity="ent64" targetEntity="ent65">
+    <RelationshipRole1 id="rel100#role199" name="Communities2itemToCommunity" maxCard="1">
+      <db:JoinColumn attribute="ent64#att279" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel100#role200" name="CommunityToCommunities2item" maxCard="N">
+      <db:JoinColumn attribute="ent65#att280" name="community_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel101" name="Communities2itemItem" db:database="db2" db:table="communities2item" sourceEntity="ent64" targetEntity="ent87">
+    <RelationshipRole1 id="rel101#role201" name="Communities2itemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent64#att279" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel101#role202" name="ItemToCommunities2item" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel102" name="HarvestedcollectionCollection" db:database="db2" db:table="harvested_collection" sourceEntity="ent85" targetEntity="ent61">
+    <RelationshipRole1 id="rel102#role203" name="HarvestedcollectionToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent85#att348" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel102#role204" name="CollectionToHarvestedcollection" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel103" name="CwfpooltaskCwfworkflowitem" db:database="db2" db:table="cwf_pooltask" sourceEntity="ent73" targetEntity="ent74">
+    <RelationshipRole1 id="rel103#role205" name="CwfpooltaskToCwfworkflowitem" maxCard="1">
+      <db:JoinColumn attribute="ent73#att299" name="pooltask_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel103#role206" name="CwfworkflowitemToCwfpooltask" maxCard="N">
+      <db:JoinColumn attribute="ent74#att303" name="workflowitem_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel104" name="CwfpooltaskEperson" db:database="db2" db:table="cwf_pooltask" sourceEntity="ent73" targetEntity="ent77">
+    <RelationshipRole1 id="rel104#role207" name="CwfpooltaskToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent73#att299" name="pooltask_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel104#role208" name="EpersonToCwfpooltask" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="eperson_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel105" name="CwfpooltaskEpersongroup" db:database="db2" db:table="cwf_pooltask" sourceEntity="ent73" targetEntity="ent78">
+    <RelationshipRole1 id="rel105#role209" name="CwfpooltaskToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent73#att299" name="pooltask_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel105#role210" name="EpersongroupToCwfpooltask" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="group_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel106" name="Group2groupEpersongroup" db:database="db2" db:table="group2group" sourceEntity="ent82" targetEntity="ent78">
+    <RelationshipRole1 id="rel106#role211" name="Group2groupToEpersongroup" maxCard="1">
+      <db:JoinColumn attribute="ent82#att334" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel106#role212" name="EpersongroupToGroup2group" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="child_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel107" name="Group2groupEpersongroup" db:database="db2" db:table="group2group" sourceEntity="ent82" targetEntity="ent78">
+    <RelationshipRole1 id="rel107#role213" name="Group2groupToEpersongroup_2" maxCard="1">
+      <db:JoinColumn attribute="ent82#att334" name="id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel107#role214" name="EpersongroupToGroup2group_2" maxCard="N">
+      <db:JoinColumn attribute="ent78#att328" name="parent_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel108" name="Bi2dmapBi2dis" db:database="db2" db:table="bi_2_dmap" sourceEntity="ent52" targetEntity="ent51">
+    <RelationshipRole1 id="rel108#role215" name="Bi2dmapToBi2dis" maxCard="1">
+      <db:JoinColumn attribute="ent52#att230" name="map_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel108#role216" name="Bi2disToBi2dmap" maxCard="N">
+      <db:JoinColumn attribute="ent51#att226" name="distinct_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel109" name="Bi2dmapItem" db:database="db2" db:table="bi_2_dmap" sourceEntity="ent52" targetEntity="ent87">
+    <RelationshipRole1 id="rel109#role217" name="Bi2dmapToItem" maxCard="1">
+      <db:JoinColumn attribute="ent52#att230" name="map_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel109#role218" name="ItemToBi2dmap" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel110" name="WorkflowitemCollection" db:database="db2" db:table="workflowitem" sourceEntity="ent97" targetEntity="ent61">
+    <RelationshipRole1 id="rel110#role219" name="WorkflowitemToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent97#att390" name="workflow_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel110#role220" name="CollectionToWorkflowitem" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel111" name="WorkflowitemEperson" db:database="db2" db:table="workflowitem" sourceEntity="ent97" targetEntity="ent77">
+    <RelationshipRole1 id="rel111#role221" name="WorkflowitemToEperson" maxCard="1">
+      <db:JoinColumn attribute="ent97#att390" name="workflow_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel111#role222" name="EpersonToWorkflowitem" maxCard="N">
+      <db:JoinColumn attribute="ent77#att315" name="owner"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel112" name="WorkflowitemItem" db:database="db2" db:table="workflowitem" sourceEntity="ent97" targetEntity="ent87">
+    <RelationshipRole1 id="rel112#role223" name="WorkflowitemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent97#att390" name="workflow_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel112#role224" name="ItemToWorkflowitem" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel113" name="WorkspaceitemCollection" db:database="db2" db:table="workspaceitem" sourceEntity="ent98" targetEntity="ent61">
+    <RelationshipRole1 id="rel113#role225" name="WorkspaceitemToCollection" maxCard="1">
+      <db:JoinColumn attribute="ent98#att395" name="workspace_item_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel113#role226" name="CollectionToWorkspaceitem" maxCard="N">
+      <db:JoinColumn attribute="ent61#att269" name="collection_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel114" name="WorkspaceitemItem" db:database="db2" db:table="workspaceitem" sourceEntity="ent98" targetEntity="ent87">
+    <RelationshipRole1 id="rel114#role227" name="WorkspaceitemToItem" maxCard="1">
+      <db:JoinColumn attribute="ent98#att395" name="workspace_item_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel114#role228" name="ItemToWorkspaceitem" maxCard="N">
+      <db:JoinColumn attribute="ent87#att352" name="item_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <Relationship id="rel115" name="MetadatafieldregistryMetadataschemaregistry" db:database="db2" db:table="metadatafieldregistry" sourceEntity="ent89" targetEntity="ent90">
+    <RelationshipRole1 id="rel115#role229" name="MetadatafieldregistryToMetadataschemaregistry" maxCard="1">
+      <db:JoinColumn attribute="ent89#att358" name="metadata_field_id"/>
+    </RelationshipRole1>
+    <RelationshipRole2 id="rel115#role230" name="MetadataschemaregistryToMetadatafieldregistry" maxCard="N">
+      <db:JoinColumn attribute="ent90#att362" name="metadata_schema_id"/>
+    </RelationshipRole2>
+  </Relationship>
+  <db:Database id="db3" name="Old_Authors_SEDICI" type="MySQL (MyISAM)" url="jdbc:mysql://localhost:3306/sedici" username="root" cryptedPassword="true" password="MzIxNjg5MDA="/>
+  <Entity id="ent100" name="Dependencias" db:database="db3" duration="persistent" db:table="dependencias" gr:x="425" gr:y="1600">
+    <Attribute id="ent100#att407" name="id" db:column="id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent100#att408" name="idInstitucion" db:column="id_institucion" type="integer" key="false"/>
+    <Attribute id="ent100#att409" name="nombre" db:column="Nombre" type="string" key="false"/>
+    <Attribute id="ent100#att410" name="direccion" db:column="Direccion" type="string" key="false"/>
+    <Attribute id="ent100#att411" name="telefonos" db:column="Telefonos" type="string" key="false"/>
+    <Attribute id="ent100#att412" name="hipervinculo1" db:column="Hipervinculo1" type="string" key="false"/>
+    <Attribute id="ent100#att413" name="hipervinculo2" db:column="Hipervinculo2" type="string" key="false"/>
+    <Attribute id="ent100#att414" name="hipervinculo3" db:column="Hipervinculo3" type="string" key="false"/>
+    <Attribute id="ent100#att415" name="comentarios" db:column="Comentarios" type="text" key="false"/>
+  </Entity>
+  <Entity id="ent101" name="Instituciones" db:database="db3" duration="persistent" db:table="instituciones" gr:x="425" gr:y="1380">
+    <Attribute id="ent101#att416" name="id" db:column="id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent101#att417" name="nombre" db:column="Nombre" type="string" key="false"/>
+    <Attribute id="ent101#att418" name="abreviatura" db:column="Abreviatura" type="string" key="false"/>
+    <Attribute id="ent101#att419" name="direccion" db:column="Direccion" type="string" key="false"/>
+    <Attribute id="ent101#att420" name="idPais" db:column="id_pais" type="integer" key="false"/>
+    <Attribute id="ent101#att421" name="telefono" db:column="Telefono" type="string" key="false"/>
+    <Attribute id="ent101#att422" name="sitioWeb" db:column="Sitio_Web" type="string" key="false"/>
+    <Attribute id="ent101#att423" name="comentarios" db:column="Comentarios" type="text" key="false"/>
+  </Entity>
+  <Entity id="ent102" name="Paises" db:database="db3" duration="persistent" db:table="paises" gr:x="760" gr:y="1430">
+    <Attribute id="ent102#att424" name="id" db:column="Id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent102#att425" name="nombre" db:column="Nombre" type="string" key="false"/>
+    <Attribute id="ent102#att426" name="abreviatura" db:column="Abreviatura" type="string" key="false"/>
+  </Entity>
+  <Entity id="ent103" name="Personas" db:database="db3" duration="persistent" db:table="personas" gr:x="60" gr:y="1380">
+    <Attribute id="ent103#att427" name="id" db:column="id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent103#att428" name="nombre" db:column="nombre" type="string" key="false"/>
+    <Attribute id="ent103#att429" name="apellido" db:column="apellido" type="string" key="false"/>
+    <Attribute id="ent103#att430" name="dni" db:column="dni" type="string" key="false"/>
+    <Attribute id="ent103#att431" name="email" db:column="email" type="text" key="false"/>
+    <Attribute id="ent103#att432" name="siteweb" db:column="siteweb" type="string" key="false"/>
+    <Attribute id="ent103#att433" name="idGrado" db:column="id_grado" type="string" key="false"/>
+    <Attribute id="ent103#att434" name="categoria" db:column="categoria" type="integer" key="false"/>
+    <Attribute id="ent103#att435" name="login" db:column="login" type="string" key="false"/>
+    <Attribute id="ent103#att436" name="password" db:column="password" type="string" key="false"/>
+    <Attribute id="ent103#att437" name="observaciones" db:column="observaciones" type="text" key="false"/>
+    <Attribute id="ent103#att438" name="idPais" db:column="id_pais" type="integer" key="false"/>
+    <Attribute id="ent103#att439" name="idInstitucion" db:column="id_institucion" type="integer" key="false"/>
+    <Attribute id="ent103#att440" name="idDependencia" db:column="id_dependencia" type="integer" key="false"/>
+    <Attribute id="ent103#att441" name="idUnidad" db:column="id_unidad" type="integer" key="false"/>
+    <Attribute id="ent103#att442" name="otroPais" db:column="otro_pais" type="string" key="false"/>
+    <Attribute id="ent103#att443" name="otroInstitucion" db:column="otro_institucion" type="string" key="false"/>
+    <Attribute id="ent103#att444" name="otroDependencia" db:column="otro_dependencia" type="string" key="false"/>
+    <Attribute id="ent103#att445" name="otroUnidad" db:column="otro_unidad" type="string" key="false"/>
+    <Attribute id="ent103#att446" name="idIdioma" db:column="id_idioma" type="integer" key="false"/>
+    <Attribute id="ent103#att447" name="email1" db:column="email1" type="string" key="false"/>
+    <Attribute id="ent103#att448" name="email2" db:column="email2" type="string" key="false"/>
+    <Attribute id="ent103#att449" name="fechaInscripcion" db:column="fecha_inscripcion" type="timestamp" key="false"/>
+    <Attribute id="ent103#att450" name="mailvisible" db:column="mailvisible" type="integer" key="false"/>
+    <Attribute id="ent103#att451" name="mailvisible1" db:column="mailvisible1" type="integer" key="false"/>
+    <Attribute id="ent103#att452" name="mailvisible2" db:column="mailvisible2" type="integer" key="false"/>
+    <Attribute id="ent103#att453" name="recinf" db:column="recinf" type="integer" key="false"/>
+    <Attribute id="ent103#att454" name="recinf1" db:column="recinf1" type="integer" key="false"/>
+    <Attribute id="ent103#att455" name="recinf2" db:column="recinf2" type="integer" key="false"/>
+    <Attribute id="ent103#att456" name="cantVisitas" db:column="cant_visitas" type="integer" key="false"/>
+    <Attribute id="ent103#att457" name="perfil" db:column="perfil" type="integer" key="false"/>
+    <Attribute id="ent103#att458" name="cargo" db:column="cargo" type="text" key="false"/>
+    <Attribute id="ent103#att459" name="lugarDeTrabajo" db:column="lugar_de_trabajo" type="text" key="false"/>
+    <Attribute id="ent103#att460" name="telefono" db:column="telefono" type="text" key="false"/>
+    <Attribute id="ent103#att461" name="horarioDeContacto" db:column="horario_de_contacto" type="text" key="false"/>
+    <Attribute id="ent103#att462" name="paisesId" db:column="paises_id" type="integer" key="false"/>
+  </Entity>
+  <Entity id="ent104" name="Unidades" db:database="db3" duration="persistent" db:table="unidades" gr:x="425" gr:y="1850">
+    <Attribute id="ent104#att463" name="id" db:column="Id" type="integer" key="true" db:idGenerator="identity"/>
+    <Attribute id="ent104#att464" name="codigoInstitucion" db:column="Codigo_Institucion" type="integer" key="false"/>
+    <Attribute id="ent104#att465" name="codigoDependencia" db:column="Codigo_Dependencia" type="integer" key="false"/>
+    <Attribute id="ent104#att466" name="nombre" db:column="Nombre" type="string" key="false"/>
+    <Attribute id="ent104#att467" name="direccion" db:column="Direccion" type="string" key="false"/>
+    <Attribute id="ent104#att468" name="telefonos" db:column="Telefonos" type="string" key="false"/>
+    <Attribute id="ent104#att469" name="figuraPortada" db:column="Figura_Portada" type="integer" key="false"/>
+    <Attribute id="ent104#att470" name="hipervinculo1" db:column="Hipervinculo1" type="string" key="false"/>
+    <Attribute id="ent104#att471" name="hipervinculo2" db:column="Hipervinculo2" type="string" key="false"/>
+    <Attribute id="ent104#att472" name="hipervinculo3" db:column="Hipervinculo3" type="string" key="false"/>
+    <Attribute id="ent104#att473" name="comentarios" db:column="Comentarios" type="text" key="false"/>
+  </Entity>
+</DataModel>
